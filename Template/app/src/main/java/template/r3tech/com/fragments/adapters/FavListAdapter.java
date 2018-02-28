@@ -13,12 +13,12 @@ import butterknife.ButterKnife;
 import template.r3tech.com.R;
 import template.r3tech.com.fragments.dummy.DummyContent.DummyItem;
 
-public class MyFavItemRecyclerViewAdapter extends RecyclerView.Adapter<MyFavItemRecyclerViewAdapter.ViewHolder> {
+public class FavListAdapter extends RecyclerView.Adapter<FavListAdapter.ViewHolder> {
 
     private final List<DummyItem> mValues;
     private static onItemClickListener onItemClickListener;
 
-    public MyFavItemRecyclerViewAdapter(List<DummyItem> items) {
+    public FavListAdapter(List<DummyItem> items) {
         mValues = items;
     }
 

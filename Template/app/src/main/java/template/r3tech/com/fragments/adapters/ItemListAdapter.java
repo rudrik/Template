@@ -11,15 +11,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import template.r3tech.com.R;
-import template.r3tech.com.fragments.dummy.DummyContent.DummyItem;
+import template.r3tech.com.model.ItemModel;
 
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
+public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<ItemModel> mValues;
     private static onItemClickListener onItemClickListener;
 
-    public MyItemRecyclerViewAdapter(List<DummyItem> items) {
-        mValues = items;
+    public ItemListAdapter(List<ItemModel> items) {
+        this.mValues = items;
     }
 
     @Override
@@ -32,8 +32,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mIdView.setText(mValues.get(position).getId());
+        holder.mContentView.setText(mValues.get(position).getItemContent());
     }
 
     @Override
@@ -48,7 +48,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         @BindView(R.id.content)
         TextView mContentView;
 
-        DummyItem mItem;
+        ItemModel mItem;
 
         ViewHolder(View view) {
             super(view);

@@ -13,11 +13,10 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import template.r3tech.com.R;
-import template.r3tech.com.fragments.adapters.MyFavItemRecyclerViewAdapter;
-import template.r3tech.com.fragments.dummy.DummyContent;
+import template.r3tech.com.fragments.adapters.FavListAdapter;
 
 public class FavItemsFragment extends Fragment {
-    private MyFavItemRecyclerViewAdapter myItemRecyclerViewAdapter;
+    private FavListAdapter myItemRecyclerViewAdapter;
     @BindView(R.id.list)
     RecyclerView recyclerView;
 
@@ -42,8 +41,8 @@ public class FavItemsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        myItemRecyclerViewAdapter = new MyFavItemRecyclerViewAdapter(DummyContent.ITEMS);
-        myItemRecyclerViewAdapter.setOnItemClickListener(new MyFavItemRecyclerViewAdapter.onItemClickListener() {
+        myItemRecyclerViewAdapter = new FavListAdapter(DummyContent.ITEMS);
+        myItemRecyclerViewAdapter.setOnItemClickListener(new FavListAdapter.onItemClickListener() {
             @Override
             public void onItemClicked(View view, int position) {
                 Toast.makeText(getActivity(), DummyContent.ITEMS.get(position).content, Toast.LENGTH_SHORT).show();

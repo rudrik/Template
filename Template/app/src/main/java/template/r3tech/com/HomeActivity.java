@@ -1,6 +1,7 @@
 package template.r3tech.com;
 
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -17,6 +18,7 @@ import butterknife.ButterKnife;
 import butterknife.OnItemSelected;
 import template.r3tech.com.fragments.FavItemsFragment;
 import template.r3tech.com.fragments.ItemsFragment;
+import template.r3tech.com.utils.DBHelper;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -66,8 +68,13 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         ButterKnife.bind(this);
+
+        DBHelper _helper = new DBHelper(this);
+        SQLiteDatabase _db = _helper.getWritableDatabase();
+        _helper.initiateData(HomeActivity.this);
+        _helper.close();
+
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         pushFragment(new ItemsFragment());
     }

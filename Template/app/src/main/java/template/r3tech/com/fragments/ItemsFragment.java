@@ -10,17 +10,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import template.r3tech.com.R;
-import template.r3tech.com.fragments.adapters.MyItemRecyclerViewAdapter;
-import template.r3tech.com.fragments.dummy.DummyContent;
+import template.r3tech.com.fragments.adapters.ItemListAdapter;
+import template.r3tech.com.model.ItemModel;
+import template.r3tech.com.utils.DBHelper;
 
 public class ItemsFragment extends Fragment {
 
-    private MyItemRecyclerViewAdapter myItemRecyclerViewAdapter;
+    private ItemListAdapter itemListAdapter;
     @BindView(R.id.list)
     RecyclerView recyclerView;
+
+    private List<ItemModel> lstList;
+    private DBHelper dbHelper;
 
     public ItemsFragment() {
     }
@@ -42,15 +48,17 @@ public class ItemsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        dbHelper = new DBHelper(getActivity());
+        lstList = dbHelper.getContent();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(DummyContent.ITEMS);
-        myItemRecyclerViewAdapter.setOnItemClickListener(new MyItemRecyclerViewAdapter.onItemClickListener() {
+        itemListAdapter = new ItemListAdapter(lstList);
+        itemListAdapter.setOnItemClickListener(new ItemListAdapter.onItemClickListener() {
             @Override
             public void onItemClicked(View view, int position) {
-                Toast.makeText(getActivity(), DummyContent.ITEMS.get(position).content, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), lstList.get(position).getItemContent(), Toast.LENGTH_SHORT).show();
             }
         });
-        recyclerView.setAdapter(myItemRecyclerViewAdapter);
+        recyclerView.setAdapter(itemListAdapter);
 
     }
 }
