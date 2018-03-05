@@ -10,16 +10,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import template.r3tech.com.R;
 import template.r3tech.com.fragments.adapters.FavListAdapter;
+import template.r3tech.com.model.ItemModel;
+import template.r3tech.com.utils.DBHelper;
 
 public class FavItemsFragment extends Fragment {
     private FavListAdapter myItemRecyclerViewAdapter;
     @BindView(R.id.list)
     RecyclerView recyclerView;
-
+    private List<ItemModel> lstList;
+    private DBHelper dbHelper;
     public FavItemsFragment() {
     }
 
@@ -40,12 +45,14 @@ public class FavItemsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        dbHelper = new DBHelper(getActivity());
+        lstList = dbHelper.getContent();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        myItemRecyclerViewAdapter = new FavListAdapter(DummyContent.ITEMS);
+        myItemRecyclerViewAdapter = new FavListAdapter(lstList);
         myItemRecyclerViewAdapter.setOnItemClickListener(new FavListAdapter.onItemClickListener() {
             @Override
             public void onItemClicked(View view, int position) {
-                Toast.makeText(getActivity(), DummyContent.ITEMS.get(position).content, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), lstList.get(position).getItemContent(), Toast.LENGTH_SHORT).show();
             }
         });
         recyclerView.setAdapter(myItemRecyclerViewAdapter);

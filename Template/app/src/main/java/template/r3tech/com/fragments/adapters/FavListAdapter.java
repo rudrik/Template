@@ -11,14 +11,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import template.r3tech.com.R;
-import template.r3tech.com.fragments.dummy.DummyContent.DummyItem;
+import template.r3tech.com.model.ItemModel;
 
 public class FavListAdapter extends RecyclerView.Adapter<FavListAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<ItemModel> mValues;
     private static onItemClickListener onItemClickListener;
 
-    public FavListAdapter(List<DummyItem> items) {
+    public FavListAdapter(List<ItemModel> items) {
         mValues = items;
     }
 
@@ -32,7 +32,7 @@ public class FavListAdapter extends RecyclerView.Adapter<FavListAdapter.ViewHold
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mContentView.setText(mValues.get(position).getItemContent());
     }
 
     @Override
@@ -47,7 +47,7 @@ public class FavListAdapter extends RecyclerView.Adapter<FavListAdapter.ViewHold
         @BindView(R.id.content)
         TextView mContentView;
 
-        DummyItem mItem;
+        ItemModel mItem;
 
         ViewHolder(View view) {
             super(view);

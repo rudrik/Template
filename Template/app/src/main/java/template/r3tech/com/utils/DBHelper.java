@@ -61,28 +61,22 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void initiateData(Context context) {
         SQLiteDatabase db = this.getWritableDatabase();
-        try {
-            String[] _items = context.getResources().getStringArray(R.array.Joke);
-            int _totalItemsInArray = _items.length;
-            db.beginTransaction();
-            Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_NAME + "", null);
-            cursor.moveToFirst();
+        String[] _items = context.getResources().getStringArray(R.array.Joke);
+        int _totalItemsInArray = _items.length;
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_NAME + "", null);
+        cursor.moveToFirst();
 
-            int _TotalItemInDB = cursor.getInt(0);
-            if (_totalItemsInArray > _TotalItemInDB) {
-                for (int i = _TotalItemInDB; i < _totalItemsInArray; i++) {
-                    ContentValues _vals = new ContentValues();
-                    _vals.put(_ID, i);
-                    _vals.put(ITEM_CONTENT, _items[i]);
-                    _vals.put(ITEM_FAV, 0);
-                    db.insert(TABLE_NAME, null, _vals);
-                }
+        int _TotalItemInDB = cursor.getInt(0);
+        if (_totalItemsInArray > _TotalItemInDB) {
+            for (int i = _TotalItemInDB; i < _totalItemsInArray; i++) {
+                ContentValues _vals = new ContentValues();
+                _vals.put(_ID, i);
+                _vals.put(ITEM_CONTENT, _items[i]);
+                _vals.put(ITEM_FAV, 0);
+                db.insert(TABLE_NAME, null, _vals);
             }
-            db.setTransactionSuccessful();
-            db.close();
-        } finally {
-            db.endTransaction();
         }
+        db.close();
     }
 
     public List<ItemModel> getContent() {
@@ -90,7 +84,6 @@ public class DBHelper extends SQLiteOpenHelper {
         List<ItemModel> lstItems = new ArrayList<>();
         String query = "SELECT  * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
-        db.beginTransaction();
         Cursor cursor = db.rawQuery(query, null);
         ItemModel itemModel = null;
         if (cursor.moveToFirst()) {
@@ -102,7 +95,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 lstItems.add(itemModel);
             } while (cursor.moveToNext());
         }
-        db.setTransactionSuccessful();
         db.close();
         return lstItems;
     }
