@@ -99,6 +99,26 @@ public class DBHelper extends SQLiteOpenHelper {
         return lstItems;
     }
 
+    public List<ItemModel> getFavContent() {
+
+        List<ItemModel> lstItems = new ArrayList<>();
+        String query = "SELECT  * FROM " + TABLE_NAME + "WHERE " + ITEM_FAV + " = " + 1 + "";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        ItemModel itemModel = null;
+        if (cursor.moveToFirst()) {
+            do {
+                itemModel = new ItemModel();
+                itemModel.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(_ID))));
+                itemModel.setItemContent(cursor.getString(cursor.getColumnIndex(ITEM_CONTENT)));
+                itemModel.setFav(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(ITEM_FAV))));
+                lstItems.add(itemModel);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return lstItems;
+    }
+
     public void addFavContent(int id, boolean isFav) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
